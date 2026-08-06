@@ -1,0 +1,7 @@
+FastAPI 是一个现代、高性能的 Python Web 框架。
+
+它基于 Starlette 和 Pydantic 构建，支持异步编程。
+
+FastAPI 的自动文档生成功能非常强大，基于 OpenAPI 和 JSON Schema。
+
+使用 FastAPI 可以快速构建 RESTful API，性能接近 Node.js 和 Go。

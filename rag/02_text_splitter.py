@@ -2,7 +2,7 @@
 RAG入门：语义切分
 """
 
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import TextLoader
 
 loader = TextLoader("test_doc.txt", encoding="utf-8")

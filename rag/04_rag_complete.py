@@ -3,10 +3,14 @@ RAG入门：完整流程（检索 + LLM生成）
 """
 
 import os
-from langchain_openai import OpenAIEmbeddings, ChatOpenAI
+from langchain_openai import ChatOpenAI
+from langchain_community.embeddings import DashScopeEmbeddings
 from langchain_community.vectorstores import Chroma
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import TextLoader
+from dotenv import load_dotenv
+load_dotenv()
+API_KEY = os.getenv("QW_API_KEY")
 
 # 1. 加载文档
 loader = TextLoader("test_doc.txt", encoding="utf-8")
@@ -17,10 +21,9 @@ splitter = RecursiveCharacterTextSplitter(chunk_size=100, chunk_overlap=20)
 chunks = splitter.split_documents(documents)
 
 # 3. Embedding + 向量库
-embeddings = OpenAIEmbeddings(
-    base_url="https://api.deepseek.com/v1",
-    api_key=os.getenv("DEEPSEEK_API_KEY"),
-    model="deepseek-embedding",
+embeddings = DashScopeEmbeddings(
+    dashscope_api_key=API_KEY,
+    model="text-embedding-v3",
 )
 vectorstore = Chroma.from_documents(chunks, embeddings)
 

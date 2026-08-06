@@ -2,10 +2,14 @@
 RAG入门：Embedding + Chroma向量数据库
 """
 
-from langchain_openai import OpenAIEmbeddings
+import os
+from langchain_community.embeddings import DashScopeEmbeddings
 from langchain_community.vectorstores import Chroma
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_core.documents import Document
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import TextLoader
+from dotenv import load_dotenv
+load_dotenv()
 
 # 1. 加载 + 切分
 loader = TextLoader("test_doc.txt", encoding="utf-8")
@@ -13,11 +17,11 @@ documents = loader.load()
 splitter = RecursiveCharacterTextSplitter(chunk_size=100, chunk_overlap=20)
 chunks = splitter.split_documents(documents)
 
+API_KEY = os.getenv("QW_API_KEY")
 # 2. Embedding（调用API将文本转为向量）
-embeddings = OpenAIEmbeddings(
-    base_url="https://api.deepseek.com/v1",
-    api_key="your-api-key",
-    model="deepseek-embedding",  # 或 text-embedding-3-small
+embeddings = DashScopeEmbeddings(
+    dashscope_api_key=API_KEY,
+    model="text-embedding-v3",
 )
 
 # 3. 存入Chroma向量库
